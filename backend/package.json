@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Test task for Unleashed Capital",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "js",
+    "master",
+    "race"
+  ],
+  "author": "Alex Sarychev",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
