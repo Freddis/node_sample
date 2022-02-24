@@ -29,7 +29,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     const dto = new UserDTO();
     Object.assign(dto, req.body);
-    const defaultErrorMsg = "Unable to register user";
+    const defaultErrorMsg = "Unable to register login";
     const errors = await validate(dto, {skipMissingProperties: true});
     if (errors.length > 0) {
         return respondWithBadValidation(res, defaultErrorMsg, errors);
@@ -37,10 +37,11 @@ router.post('/login', async (req, res) => {
 
     const auth = useAuth();
     let jwt = await auth.login(dto.email, dto.password);
-    let user = auth.findByEmail(dto.email);
     if (!jwt) {
-        return respondWithError(res, "Couldn't login");
+        return respondWithBadValidation(res, defaultErrorMsg, auth.getErrors());
+
     }
+    let user = auth.findByEmail(dto.email);
     res.json({user, jwt});
 });
 

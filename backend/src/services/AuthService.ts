@@ -47,8 +47,8 @@ class AuthService {
         const errorMessage = "User not found or password doesn't not match";
         if (!existingUser) {
             const error = new ValidationError();
-            error.property = "unknown";
-            error.constraints = {"email": errorMessage};
+            error.property = "email";
+            error.constraints = {"unknown": errorMessage};
             this.errors = [error];
             return null;
         }
