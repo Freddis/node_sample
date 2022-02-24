@@ -3,7 +3,7 @@ import {validate, ValidationError} from "class-validator";
 import {EntityManager, getManager} from "typeorm";
 import {NextFunction, Response, Request, RequestHandler} from "express";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 class AuthService {
 
