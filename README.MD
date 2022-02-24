@@ -5,6 +5,11 @@ Unfortunately I underestimated the amount of time needed to accomplish the task.
 To run the project, it should be sufficient to just execute:
 `docker-compose up`
 
+<b>Note that it may take about 2-3 minutes to actually start. There's a lot of dependencies for both frontend and backend.</b>
+
+The URLS of the servers going to be: http://localhost:3000 the frontend and http://localhost:3001 for the backend.
+
+
 1. For the frontend I used NextJS since it works great with React and Typescript.
 
 2. For the backend I used Express as it was prescribed in the task.
