@@ -15,7 +15,7 @@ const Header = () => {
 
     async function logout(e: React.MouseEvent<HTMLAnchorElement>) {
         e.preventDefault();
-        removeCookie('jwt');
+        removeCookie('jwt', {path: '/'});
         setUserName(null);
         await Router.push('/');
     }
