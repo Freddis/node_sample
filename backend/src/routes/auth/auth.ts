@@ -5,18 +5,9 @@ import {validate} from "class-validator";
 import {respondWithBadValidation, respondWithError} from "../../helpers/api";
 
 const router = Router();
-
-router.get('/current', (req, res) => {
-    const data = {
-        test: "check"
-    };
-    res.json(data);
-});
-
 router.post('/register', async (req, res) => {
     const dto = new UserDTO();
     Object.assign(dto, req.body);
-    console.log(dto);
     const defaultErrorMsg = "Unable to register user";
     const errors = await validate(dto);
     if (errors.length > 0) {
@@ -38,7 +29,6 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     const dto = new UserDTO();
     Object.assign(dto, req.body);
-    console.log(dto);
     const defaultErrorMsg = "Unable to register user";
     const errors = await validate(dto, {skipMissingProperties: true});
     if (errors.length > 0) {

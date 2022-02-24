@@ -19,6 +19,9 @@ const Home: NextPage = () => {
 
     async function loadUsers(): Promise<void> {
         const response = await apiGet<UserListResponse>("/users").catch(showApiError(dispatch));
+        if(!response){
+            return;
+        }
         if (response?.error) {
             return showErrorAlert(dispatch, response.error.message);
         }
@@ -52,6 +55,7 @@ const Home: NextPage = () => {
                 )}
                 </tbody>
             </table>
+            <b>These are visible only for those who logged in.</b>
         </div>
     )
 }

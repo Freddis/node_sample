@@ -23,7 +23,9 @@ const Register: NextPage = () => {
             setErrors(response?.error!.validation!)
             return showErrorAlert(dispatch, response.error.message);
         }
-
+        if(!response){
+            return;
+        }
         setCookie('jwt', response?.jwt!, { path: '/' });
         await Router.push('/');
         showSuccessfulAlert(dispatch, "You successfully registered");

@@ -6,7 +6,7 @@ import Router from "next/router";
 
 const Header = () => {
 
-    const [cookies,setCookie,removeCookie] = useCookies(['jwt']);
+    const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
     const [userName, setUserName] = useState(null);
     if (cookies.jwt && !userName) {
         const data = parseJwt(cookies.jwt);
@@ -32,18 +32,20 @@ const Header = () => {
                             <a className={'nav-link'}>Home</a>
                         </Link>
                     </li>
-                    {!userName && <>
+                    {!userName &&
                         <li className={'nav-item'}>
                             <Link href={"/auth/login"}>
                                 <a className={'nav-link'}>Login</a>
                             </Link>
                         </li>
+                    }
+                    {!userName &&
                         <li className={'nav-item'}>
                             <Link href={"/auth/register"}>
                                 <a className={'nav-link'}>Register</a>
                             </Link>
                         </li>
-                    </>}
+                    }
                 </ul>
             </div>
             {userName && <div className={"welcome"}>Welcome <b>{userName}</b>, to logout click <a onClick={e => logout(e)} href="/logout">here</a></div>}

@@ -7,6 +7,7 @@ import {showApiError, showErrorAlert, showSuccessfulAlert} from "../../helpers/a
 import Router from "next/router";
 import {ValidationErrors} from "../../types/ErrorResponse";
 import ValidationError from "../../components/shared/ValidationError";
+import {useCookies} from "react-cookie";
 
 const Register: NextPage = () => {
 
@@ -15,16 +16,20 @@ const Register: NextPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
+    const [cookies, setCookie] = useCookies(['jwt']);
     const dispatch = useAppDispatch();
 
     async function register() {
         const data = {fullName, email, password, passwordConfirmation};
         const response = await apiPost<RegisterResponse>("/auth/register", data).catch(showApiError(dispatch));
+        if(!response){
+            return;
+        }
         if (response?.error) {
             setErrors(response?.error!.validation!)
             return showErrorAlert(dispatch, response.error.message);
         }
-
+        setCookie('jwt', response?.jwt!, { path: '/' });
         await Router.push('/');
         showSuccessfulAlert(dispatch,"You successfully registered");
     }

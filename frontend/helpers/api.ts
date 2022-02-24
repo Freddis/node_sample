@@ -33,9 +33,15 @@ function fetchApi<T extends Response>(endpoint: string, data?: any): Promise<T> 
             'Authorization': 'Bearer ' + jwtCookie,
         }
     }
-
+    const badStatuses = [401,403];
     return fetch(url, options)
         .then(response => {
+
+            if(badStatuses.find( el => el == response.status))
+            {
+                console.log("throw");
+                throw new Error("Bad response");
+            }
             return response.json()
         });
 }

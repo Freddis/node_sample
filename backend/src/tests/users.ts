@@ -13,6 +13,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
     // shutting down the server
+    console.log("Shutting the server");
     server.close();
 });
 
@@ -29,9 +30,8 @@ describe('Users Endpoint', () => {
 
     it('GET /users should show all users', async () => {
         const res = await request(server).get('/users');
-        expect(res.status).toEqual(200);
-        expect(res.type).toEqual(expect.stringContaining('json'));
-        expect(res.body).toHaveProperty('users');
+        expect(res.status).toEqual(401);
+        expect(res.body).not.toHaveProperty('users');
         console.log(res.body);
     });
 

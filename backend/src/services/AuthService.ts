@@ -64,7 +64,7 @@ class AuthService {
 
         const token = jwt.sign(
             {fullName: existingUser.fullName, email: existingUser.email},
-            process.env.JWT_KEY,
+            process.env.JWT_SECRET,
             {
                 expiresIn: "2h",
             }
@@ -76,13 +76,27 @@ class AuthService {
         return this.errors;
     }
 
-    async middleware(req: Request, res: Response, next: NextFunction) {
-        next();
-    }
-
     findByEmail(email: string): Promise<User> {
         return this.entityManager.getRepository<User>(User).findOne({email});
     }
+
+    async authenticate(req: Request, res: Response, next: NextFunction) {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.sendStatus(401);
+        }
+
+        const token = authHeader.split(' ')[1];
+
+        jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
+            console.log(err);
+            if (err) {
+                return res.sendStatus(403);
+            }
+            next();
+        });
+    };
+
 }
 
 const authService = new AuthService(getManager());
