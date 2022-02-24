@@ -26,9 +26,9 @@ beforeEach(async () =>{
     }
 })
 
-describe('Users Endpoint', () => {
+describe('Authentication and Users', () => {
 
-    it('GET /users should show all users', async () => {
+    it('GET /users should not allow unauthorized access', async () => {
         const res = await request(server).get('/users');
         expect(res.status).toEqual(401);
         expect(res.body).not.toHaveProperty('users');
@@ -39,8 +39,8 @@ describe('Users Endpoint', () => {
         const res = await request(server).post('/auth/register').send({
             fullName: "Test Name",
             email: "test@test.com",
-            password: "password",
-            passwordConfirmation: "password"
+            password: "1q2w3e4rDD#",
+            passwordConfirmation: "1q2w3e4rDD#"
         });
         console.log(res.body);
         expect(res.status).toEqual(200);
@@ -53,18 +53,28 @@ describe('Users Endpoint', () => {
         const res = await request(server).post('/auth/register').send({
             fullName: "Test Name",
             email: "test@test.com",
-            password: "password",
-            passwordConfirmation: "password"
+            password: "1q2w3e4rDD#",
+            passwordConfirmation: "1q2w3e4rDD#"
         });
         expect(res.status).toEqual(200);
         const res2 = await request(server).post('/auth/register').send({
             fullName: "Test Name",
             email: "test@test.com",
-            password: "password",
-            passwordConfirmation: "password"
+            password: "1q2w3e4rDD#",
+            passwordConfirmation: "1q2w3e4rDD#"
         });
         expect(res2.status).not.toEqual(200);
 
+    });
+
+    it("Can't register with simple password", async () => {
+        const res = await request(server).post('/auth/register').send({
+            fullName: "Test Name",
+            email: "test@test.com",
+            password: "justastring#",
+            passwordConfirmation: "justastring"
+        });
+        expect(res.status).not.toEqual(200);
     });
 
     it("Can login", async () => {
@@ -84,6 +94,19 @@ describe('Users Endpoint', () => {
         expect(res2.body).toHaveProperty('user');
         expect(res2.body).toHaveProperty('jwt');
         expect(res2.status).toEqual(200);
+
+    });
+
+    it("Can't login with the user that doesn't exist", async () => {
+
+        const res2 = await request(server).post('/auth/login').send({
+            email: "unknownemail@test.com",
+            password: "1q2w3e4rDD!",
+        });
+        expect(res2.type).toEqual(expect.stringContaining('json'));
+        expect(res2.body).not.toHaveProperty('user');
+        expect(res2.body).not.toHaveProperty('jwt');
+        expect(res2.status).toEqual(400);
 
     });
 

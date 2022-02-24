@@ -23,6 +23,7 @@ router.post('/register', async (req, res) => {
     if (!jwt) {
         return respondWithError(res, "Couldn't login");
     }
+    //@todo: probably we don't need to send the user, it's the Auth service, not the user service. It will require to apply fixes to frontend types.
     res.json({user, jwt});
 });
 
@@ -41,6 +42,7 @@ router.post('/login', async (req, res) => {
         return respondWithBadValidation(res, defaultErrorMsg, auth.getErrors());
 
     }
+    //@todo: probably we don't need to send the user, it's the Auth service, not the user service. It will require to apply fixes to frontend types.
     let user = auth.findByEmail(dto.email);
     res.json({user, jwt});
 });
