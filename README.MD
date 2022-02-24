@@ -20,7 +20,9 @@ The URLS of the servers going to be: http://localhost:3000 the frontend and http
 
 2. For the backend I used Express as it was prescribed in the task.
 
-For authorization token I chose JWT, since it gives a lot of flexibility. At first, I planned to add capability to logout from all devices, but unfortunately I had no time left to accomplish it. I also added extra endpoint `/users`, which returns raw data (Including passwords) for users. This endpoint is needed because JWT in such small scale draws authentication useless since username can be encoded into JWT itself. I wanted to have at least one endpoint that authorizes the user.
+For authorization token I chose JWT, since it gives a lot of flexibility. At first, I planned to add capability to logout from all devices, but unfortunately I had no time left to accomplish it. I also added extra endpoint `/users`, which returns raw data (Including passwords) for users.
+This endpoint is needed because JWT in such small scale draws authorization useless since the username can be encoded into JWT itself. 
+I wanted to have at least one endpoint that authorizes the user.
 
 <b>Don't forget to checkout the list of commits. You're going to be amazed how much code I actually pushed in the last 10 hours</b>
 
