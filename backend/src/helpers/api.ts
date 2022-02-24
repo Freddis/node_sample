@@ -2,7 +2,7 @@ import {ValidationError} from "class-validator";
 import {Response} from 'express';
 
 interface ValidationErrorResponse {
-    error : {
+    error: {
         message: string,
         validation: {
             [type: string]: string;
@@ -10,10 +10,20 @@ interface ValidationErrorResponse {
     }
 }
 
+export function respondWithError(res: Response, message: string = "Unknown Error") {
+    const data = {
+        error: {
+            message,
+        }
+    };
+    res.status(400);
+    res.json(data);
+}
+
 export function respondWithBadValidation(res: Response, message: string = "Unknown Error", validationErrors: ValidationError[]) {
 
     const data: ValidationErrorResponse = {
-        error : {
+        error: {
             message,
             validation: {},
         }

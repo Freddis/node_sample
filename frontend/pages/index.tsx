@@ -5,10 +5,12 @@ import {useAppDispatch} from "../redux/hooks";
 import {showApiError, showErrorAlert} from "../helpers/alert";
 import {UserListResponse} from "../types/UserListResponse";
 import {User} from "../types/objects/User";
+import {useCookies} from "react-cookie";
 
 const Home: NextPage = () => {
 
     const [users, setUsers] = useState<User[]>([]);
+    const [cookies] = useCookies(['jwt']);
     const dispatch = useAppDispatch();
     useEffect(() => {
         loadUsers();
@@ -20,8 +22,10 @@ const Home: NextPage = () => {
         if (response?.error) {
             return showErrorAlert(dispatch, response.error.message);
         }
-        console.log(response);
         setUsers(response?.users!);
+    }
+    if(!cookies.jwt){
+        return <div>You can&apos;t see the data on this page until you&apos;re logged in!</div>
     }
 
     if ( users.length == 0) {

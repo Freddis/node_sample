@@ -2,7 +2,7 @@ import {Router} from "express";
 import {UserDTO} from "../../dto/UserDTO";
 import {useAuth} from "../../services/AuthService";
 import {validate} from "class-validator";
-import {respondWithBadValidation} from "../../helpers/api";
+import {respondWithBadValidation, respondWithError} from "../../helpers/api";
 
 const router = Router();
 
@@ -16,7 +16,7 @@ router.get('/current', (req, res) => {
 router.post('/register', async (req, res) => {
     const dto = new UserDTO();
     Object.assign(dto, req.body);
-
+    console.log(dto);
     const defaultErrorMsg = "Unable to register user";
     const errors = await validate(dto);
     if (errors.length > 0) {
@@ -28,7 +28,30 @@ router.post('/register', async (req, res) => {
     if (!user) {
         return respondWithBadValidation(res, defaultErrorMsg, auth.getErrors());
     }
-    res.json({user});
-})
+    let jwt = await auth.login(dto.email, dto.password);
+    if (!jwt) {
+        return respondWithError(res, "Couldn't login");
+    }
+    res.json({user, jwt});
+});
+
+router.post('/login', async (req, res) => {
+    const dto = new UserDTO();
+    Object.assign(dto, req.body);
+    console.log(dto);
+    const defaultErrorMsg = "Unable to register user";
+    const errors = await validate(dto, {skipMissingProperties: true});
+    if (errors.length > 0) {
+        return respondWithBadValidation(res, defaultErrorMsg, errors);
+    }
+
+    const auth = useAuth();
+    let jwt = await auth.login(dto.email, dto.password);
+    let user = auth.findByEmail(dto.email);
+    if (!jwt) {
+        return respondWithError(res, "Couldn't login");
+    }
+    res.json({user, jwt});
+});
 
 export default router;
