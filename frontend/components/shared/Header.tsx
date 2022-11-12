@@ -24,7 +24,7 @@ const Header = () => {
         <nav className={'navbar navbar-expand-lg navbar-light bg-light'}>
             <div className="container-fluid">
                 <Link href={"/"}>
-                    <a className="navbar-brand" href={"/"}>Games DB</a>
+                    <a className="navbar-brand" href={"/"}>LOGO</a>
                 </Link>
                 <ul className={'navbar-nav me-auto mb-2'}>
                     <li className={'nav-item'}>
