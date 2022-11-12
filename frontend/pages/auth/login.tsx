@@ -15,7 +15,7 @@ const Register: NextPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useAppDispatch();
-    const [cookies, setCookie] = useCookies(['jwt']);
+    const [, setCookie] = useCookies(['jwt']);
     async function login() {
         const data = {email, password};
         const response = await apiPost<LoginResponse>("/auth/login", data).catch(showApiError(dispatch));
@@ -28,13 +28,12 @@ const Register: NextPage = () => {
         }
         setCookie('jwt', response?.jwt!, { path: '/' });
         await Router.push('/');
-        showSuccessfulAlert(dispatch, "You successfully registered");
+        showSuccessfulAlert(dispatch, "You've successfully logged in");
     }
 
     return <>
         <div className={'card'}>
             <div className="card-body">
-
                 <div className="mb-3">
                     <label className="form-label">Email address</label>
                     <input onChange={e => setEmail(e.target.value)} className="form-control"/>

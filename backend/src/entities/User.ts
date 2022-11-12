@@ -1,7 +1,6 @@
 import {Column, Entity, PrimaryGeneratedColumn, Unique} from "typeorm";
 import {IsEmail, IsNotEmpty, Length} from "class-validator";
 
-//@todo: Need to have another variant of that DTO, that doesn't expose the password hash. At that point, I think having 3 DTO for User is already enough for such small project.
 @Entity()
 export class User {
 

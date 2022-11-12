@@ -22,6 +22,6 @@ export class UserDTO {
     @IsNotEmpty({message: "This field is required"})
     password: string
 
-    @Match(UserDTO, (s) => s.password,{message: "Passwords do not match"})
+    @Match<UserDTO>( (s) => s.password,{message: "Passwords do not match"})
     passwordConfirmation: string
 }

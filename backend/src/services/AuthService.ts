@@ -1,9 +1,10 @@
 import {User} from "../entities/User";
 import {validate, ValidationError} from "class-validator";
 import {EntityManager, getManager} from "typeorm";
-import {NextFunction, Response, Request, RequestHandler} from "express";
+import {NextFunction, Response, Request } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import {respondWithError} from "../helpers/api";
 
 class AuthService {
 
@@ -76,10 +77,6 @@ class AuthService {
         return this.errors;
     }
 
-    findByEmail(email: string): Promise<User> {
-        return this.entityManager.getRepository<User>(User).findOne({email});
-    }
-
     async authenticate(req: Request, res: Response, next: NextFunction) {
         const authHeader = req.headers.authorization;
         if (!authHeader) {
@@ -91,7 +88,7 @@ class AuthService {
         jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
             console.log(err);
             if (err) {
-                return res.sendStatus(403);
+                return respondWithError(res,'JWT token is invalid, try to login again',403);
             }
             next();
         });

@@ -18,6 +18,9 @@ const Home: NextPage = () => {
 
 
     async function loadUsers(): Promise<void> {
+        if (!cookies.jwt){
+            return;
+        }
         const response = await apiGet<UserListResponse>("/users").catch(showApiError(dispatch));
         if(!response){
             return;

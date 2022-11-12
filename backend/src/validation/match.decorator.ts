@@ -1,8 +1,6 @@
-import { ClassConstructor } from "class-transformer";
 import {registerDecorator, ValidationArguments, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface} from "class-validator";
 
 export const Match = <T>(
-    type: ClassConstructor<T>,
     property: (o: T) => any,
     validationOptions?: ValidationOptions,
 ) => {

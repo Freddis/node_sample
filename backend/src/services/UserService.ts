@@ -1,14 +1,21 @@
 import {User} from "../entities/User";
 import {EntityManager, getManager} from "typeorm";
+import {UserReadonlyDTO} from "../dto/UserReadonlyDTO";
 
 class UserService {
 
     constructor(readonly entityManager : EntityManager) {
-
     }
 
-    findAll() : Promise<User[]> {
-        return this.entityManager.getRepository<User>(User).find();
+    async findAll() : Promise<UserReadonlyDTO[]> {
+        const users = await this.entityManager.getRepository<User>(User).find();
+        const readOnlyUsers = users.map(x => this.convertToView(x));
+        return readOnlyUsers;
+    }
+    protected convertToView(user: User) : UserReadonlyDTO {
+        const copy = {...user}
+        delete copy.password;
+        return copy;
     }
 
 }

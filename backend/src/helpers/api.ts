@@ -1,6 +1,12 @@
 import {ValidationError} from "class-validator";
 import {Response} from 'express';
 
+interface ErrorResponse {
+    error: {
+        message: string,
+    }
+}
+
 interface ValidationErrorResponse {
     error: {
         message: string,
@@ -10,18 +16,17 @@ interface ValidationErrorResponse {
     }
 }
 
-export function respondWithError(res: Response, message: string = "Unknown Error") {
-    const data = {
+export function respondWithError(res: Response, message: string = "Unknown Error",status:number = 400) {
+    const data : ErrorResponse = {
         error: {
             message,
         }
     };
-    res.status(400);
+    res.status(status);
     res.json(data);
 }
 
 export function respondWithBadValidation(res: Response, message: string = "Unknown Error", validationErrors: ValidationError[]) {
-
     const data: ValidationErrorResponse = {
         error: {
             message,

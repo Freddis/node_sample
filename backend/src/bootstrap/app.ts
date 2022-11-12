@@ -1,12 +1,15 @@
 import {Express} from "express";
 import {createConnection} from "typeorm";
-import express, {Application} from "express"
+import express from "express"
 import cors from "cors";
 
 const app = express();
 const corsOptions: cors.CorsOptions = {
-    origin: "*",
+    origin: process.env.CORS_ORIGIN,
 };
+if(!process.env.production){
+    delete(corsOptions.origin);
+}
 
 app.use(express.json());
 app.use(cors(corsOptions));

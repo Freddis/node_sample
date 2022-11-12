@@ -45,7 +45,6 @@ describe('Authentication and Users', () => {
         console.log(res.body);
         expect(res.status).toEqual(200);
         expect(res.type).toEqual(expect.stringContaining('json'));
-        expect(res.body).toHaveProperty('user');
         expect(res.body).toHaveProperty('jwt');
     });
 
@@ -91,7 +90,6 @@ describe('Authentication and Users', () => {
             password: "1q2w3e4rDD!",
         });
         expect(res2.type).toEqual(expect.stringContaining('json'));
-        expect(res2.body).toHaveProperty('user');
         expect(res2.body).toHaveProperty('jwt');
         expect(res2.status).toEqual(200);
 

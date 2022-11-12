@@ -21,6 +21,9 @@ export const notificationSlice = createSlice({
     name: 'counter',
     initialState,
     reducers: {
+        hideAlert: (state,action: PayloadAction<void>) => {
+            state.shown = true;
+        },
         showErrorAlert: (state, action: PayloadAction<string>) => {
             state.type = NotificationType.error;
             state.text = action.payload;

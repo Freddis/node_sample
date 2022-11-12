@@ -16,7 +16,7 @@ const Register: NextPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
-    const [cookies, setCookie] = useCookies(['jwt']);
+    const [, setCookie] = useCookies(['jwt']);
     const dispatch = useAppDispatch();
 
     async function register() {
@@ -31,7 +31,7 @@ const Register: NextPage = () => {
         }
         setCookie('jwt', response?.jwt!, { path: '/' });
         await Router.push('/');
-        showSuccessfulAlert(dispatch,"You successfully registered");
+        showSuccessfulAlert(dispatch,"You've successfully registered");
     }
 
     return <>

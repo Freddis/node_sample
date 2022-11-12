@@ -18,3 +18,10 @@ a {
 .navbar .welcome {
     min-width: 400px;
 }
+
+.alert .close-icon {
+    display: inline-block;
+    float: right;
+    margin-right: 0px;
+    cursor: pointer;
+}

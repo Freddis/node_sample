@@ -1,22 +1,22 @@
 import Link from "next/link";
 import {useCookies} from "react-cookie";
-import React, {useState} from "react";
+import React from "react";
 import {parseJwt} from "../../helpers/jwt";
 import Router from "next/router";
+import Notification from "./Notification";
 
 const Header = () => {
 
-    const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
-    const [userName, setUserName] = useState(null);
-    if (cookies.jwt && !userName) {
+    const [cookies,, removeCookie] = useCookies(['jwt']);
+    let userName : string | null = null;
+    if (cookies.jwt) {
         const data = parseJwt(cookies.jwt);
-        setUserName(data.fullName);
+        userName = data.fullName;
     }
 
     async function logout(e: React.MouseEvent<HTMLAnchorElement>) {
         e.preventDefault();
         removeCookie('jwt', {path: '/'});
-        setUserName(null);
         await Router.push('/');
     }
 
@@ -32,14 +32,14 @@ const Header = () => {
                             <a className={'nav-link'}>Home</a>
                         </Link>
                     </li>
-                    {!userName &&
+                    {userName === null &&
                         <li className={'nav-item'}>
                             <Link href={"/auth/login"}>
                                 <a className={'nav-link'}>Login</a>
                             </Link>
                         </li>
                     }
-                    {!userName &&
+                    {userName === null &&
                         <li className={'nav-item'}>
                             <Link href={"/auth/register"}>
                                 <a className={'nav-link'}>Register</a>
@@ -50,6 +50,7 @@ const Header = () => {
             </div>
             {userName && <div className={"welcome"}>Welcome <b>{userName}</b>, to logout click <a onClick={e => logout(e)} href="/logout">here</a></div>}
         </nav>
+        <Notification/>
     </>
 }
 
